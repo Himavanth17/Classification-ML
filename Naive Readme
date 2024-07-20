@@ -1,0 +1,104 @@
+1. Importing Libraries:
+    
+    ```python
+    
+    import pandas as pd
+    import matplotlib.pyplot as plt
+    import numpy as np
+    
+    ```
+    
+    These lines import necessary libraries:
+    
+    - `pandas` for data manipulation and analysis.
+    - `matplotlib.pyplot` for plotting graphs.
+    - `numpy` for numerical operations.
+2. Loading the Dataset:
+    
+    ```python
+    
+    df = pd.read_csv('Social_Network_Ads.csv')
+    
+    ```
+    
+    This line reads the CSV file `Social_Network_Ads.csv` into a pandas DataFrame named `df`.
+    
+3. Separating Features and Labels:
+    
+    ```python
+    
+    x = df.iloc[:,:-1].values
+    y = df.iloc[:,-1].values
+    
+    ```
+    
+    These lines separate the features (input data) and the labels (output data):
+    
+    - `x` contains all columns except the last one.
+    - `y` contains only the last column.
+4. Splitting the Dataset:
+    
+    ```python
+    
+    from sklearn.model_selection import train_test_split
+    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.25, random_state=0)
+    
+    ```
+    
+    This line splits the dataset into training and testing sets:
+    
+    - 75% of the data is used for training (`x_train`, `y_train`).
+    - 25% of the data is used for testing (`x_test`, `y_test`).
+    - `random_state=0` ensures reproducibility of the split.
+5. Feature Scaling:
+    
+    ```python
+    
+    from sklearn.preprocessing import StandardScaler
+    sc = StandardScaler()
+    x_train = sc.fit_transform(x_train)
+    x_test = sc.transform(x_test)
+    
+    ```
+    
+    These lines scale the features to have a mean of 0 and a standard deviation of 1:
+    
+    - `sc.fit_transform(x_train)` computes the mean and standard deviation on the training set and applies the transformation.
+    - `sc.transform(x_test)` applies the same transformation to the test set.
+6. Training the Naive Bayes Classifier:
+    
+    ```python
+    
+    from sklearn.naive_bayes import GaussianNB
+    classifier = GaussianNB()
+    classifier.fit(x_train, y_train)
+    
+    ```
+    
+    These lines import the Gaussian Naive Bayes classifier and train it on the scaled training data (`x_train`, `y_train`).
+    
+7. Making Predictions:
+    
+    ```python
+    
+    y_pred = classifier.predict(x_test)
+    
+    ```
+    
+    This line uses the trained classifier to predict the labels for the test set (`x_test`).
+    
+8. Evaluating the Model:
+    
+    ```python
+    
+    from sklearn.metrics import confusion_matrix, accuracy_score
+    cm = confusion_matrix(y_test, y_pred)
+    print(cm)
+    accuracy_score(y_test, y_pred)
+    
+    ```
+    
+    These lines evaluate the model:
+    
+    - `confusion_matrix(y_test, y_pred)` computes the confusion matrix to see how well the predictions match the actual labels.
+    - `accuracy_score(y_test, y_pred)` computes the accuracy of the model.
